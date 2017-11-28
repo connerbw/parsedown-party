@@ -21,7 +21,7 @@ class Plugin {
 	/**
 	 * @var array
 	 */
-	private $supportedPages = [ 'post.php' ];
+	private $supportedPages = [ 'post.php', 'post-new.php' ];
 
 	/**
 	 * @return Plugin
@@ -69,10 +69,23 @@ class Plugin {
 				$post = get_post( $id );
 			}
 		}
-		if ( $post && get_post_meta( $post->ID, self::METAKEY, true ) ) {
-			return true;
+		if ( $post ) {
+			$meta_value = get_post_meta( $post->ID, self::METAKEY, true );
 		}
-		return false;
+		if ( $post && absint( $meta_value ) === 1 ) {
+			return true;
+		} elseif ( $post && $meta_value === '0' ) {
+			// If post meta is set to 0 (not false), disable Markdown
+			return false;
+		}
+		/**
+		 * Enable markdown by default:
+		 *
+		 *    add_filter('parsedownparty_autoenable', '__return_true');
+		 *
+		 * @since 1.1
+		 */
+		return apply_filters( 'parsedownparty_autoenable', false );
 	}
 
 	/**
@@ -124,7 +137,7 @@ class Plugin {
 		if ( ! empty( $_POST[ self::METAKEY ] ) ) {
 			update_post_meta( $post_id, self::METAKEY, 1 );
 		} else {
-			delete_post_meta( $post_id, self::METAKEY );
+			update_post_meta( $post_id, self::METAKEY, 0 );
 		}
 	}
 

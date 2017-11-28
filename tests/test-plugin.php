@@ -38,6 +38,10 @@ class PluginTest extends WP_UnitTestCase {
 		$this->assertFalse( $this->plugin->useMarkdownForPost( $post ) );
 		update_post_meta( $post->ID, Plugin::METAKEY, 1 );
 		$this->assertTrue( $this->plugin->useMarkdownForPost( $post ) );
+		$new_post = $this->factory()->post->create_and_get();
+		add_filter( 'parsedownparty_autoenable', '__return_true' );
+		$this->assertTrue( $this->plugin->useMarkdownForPost( $post ) );
+		remove_filter( 'parsedownparty_autoenable', '__return_true' );		
 	}
 
 	public function test_useMarkdownForPost_Pressbooks_Export() {
