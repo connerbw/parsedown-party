@@ -146,16 +146,15 @@ class PluginTest extends WP_UnitTestCase {
 	}
 
 	public function test_parseTheContent() {
-		$content = $this->plugin->parseTheContent( 'MOCKED!' );
-		$this->assertEquals( 'MOCKED!', $content );
-
 		$GLOBALS['post'] = $this->factory()->post->create_and_get();
 		update_post_meta( $GLOBALS['post']->ID, Plugin::METAKEY, 1 );
-		$content = $this->plugin->parseTheContent( 'MOCKED!' );
+		$content = $this->plugin->parseTheContent( 'MOCKED!', $GLOBALS['post']->ID );
 		$this->assertEquals( 'OK! (HTML)', $content );
+		$this->assertEquals( $content, get_transient( Plugin::METAKEY . "_{$GLOBALS['post']->ID}" ) );
 
 		update_post_meta( $GLOBALS['post']->ID, Plugin::METAKEY, 0 );
-		$content = $this->plugin->parseTheContent( 'MOCKED!' );
+		$content = $this->plugin->parseTheContent( 'MOCKED!', $GLOBALS['post']->ID );
 		$this->assertEquals( 'MOCKED!', $content );
+		$this->assertEmpty( get_transient( Plugin::METAKEY . "_{$GLOBALS['post']->ID}" ) );
 	}
 }

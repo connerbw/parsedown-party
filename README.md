@@ -57,16 +57,17 @@ The philosophy behind this plugin is: Take a best of breed [Markdown Parser](htt
 
 
 ### 1.1.0 
-When enabling Markdown on an existing post, convert HTML to Markdown
+- When enabling Markdown on an existing post, convert HTML to Markdown.
+- Cache parsed content using transients.
 
 
 ### 1.0.2 
-Update Parsedown to version 1.7.1
+- Update Parsedown to version 1.7.1
 
 
 ### 1.0.1 
-Add `parsedownparty_autoenable` filter to allow Markdown to be enabled by default. 
+- Add `parsedownparty_autoenable` filter to allow Markdown to be enabled by default.
 
 
 ### 1.0.0 
-Initial release.
+- Initial release.

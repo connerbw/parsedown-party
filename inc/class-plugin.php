@@ -74,12 +74,7 @@ class Plugin {
 	 */
 	public function useMarkdownForPost( $post = null ) {
 		if ( ! $post ) {
-			$post = get_post();
-			if ( ! $post ) {
-				// Try to find using deprecated means
-				global $id;
-				$post = get_post( $id );
-			}
+			$post = $this->getPost();
 		}
 		$meta_value = null;
 		if ( $post ) {
@@ -148,6 +143,7 @@ class Plugin {
 			return;
 		}
 
+		delete_transient( self::METAKEY . "_{$post_id}" );
 		$use_markdown_old = get_post_meta( $post_id, self::METAKEY, true );
 		$use_markdown = ! empty( $_POST[ self::METAKEY ] ) ? 1 : 0;
 		if ( (string) $use_markdown_old !== (string) $use_markdown ) {
@@ -214,15 +210,39 @@ class Plugin {
 
 	/**
 	 * If markdown, then parse the_content using Parsedown
+	 * Cached in a transient
 	 *
 	 * @param string $content
 	 *
 	 * @return string
 	 */
 	public function parseTheContent( $content ) {
+		$post = $this->getPost();
+		$post_id = $post ? $post->ID : 0;
+		$transient = self::METAKEY . "_{$post_id}";
 		if ( $this->useMarkdownForPost() ) {
+			$cached_content = get_transient( $transient );
+			if ( $post_id && $cached_content ) {
+				return $cached_content;
+			}
 			$content = $this->parsedown->parse( $content );
+			set_transient( $transient, $content );
+		} else {
+			delete_transient( $transient );
 		}
 		return $content;
+	}
+
+	/**
+	 * @return null|\WP_Post
+	 */
+	public function getPost() {
+		$post = get_post();
+		if ( ! $post ) {
+			// Try to find using deprecated means
+			global $id;
+			$post = get_post( $id );
+		}
+		return $post;
 	}
 }
