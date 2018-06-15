@@ -12,15 +12,21 @@ class PluginTest extends WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 
-		$stub = $this
+		$stub1 = $this
 			->getMockBuilder( '\ParsedownExtra' )
 			->getMock();
-
-		$stub
+		$stub1
 			->method( 'parse' )
-			->willReturn( 'OK!' );
+			->willReturn( 'OK! (HTML)' );
 
-		$this->plugin = new Plugin( $stub );
+		$stub2 = $this
+			->getMockBuilder( '\League\HTMLToMarkdown\HtmlConverter' )
+			->getMock();
+		$stub2
+			->method( 'convert' )
+			->willReturn( 'OK! (Markdown)' );
+
+		$this->plugin = new Plugin( $stub1, $stub2 );
 	}
 
 	public function test_init() {
@@ -78,14 +84,16 @@ class PluginTest extends WP_UnitTestCase {
 		$nonce = wp_create_nonce( $post->ID );
 		$_POST[ Plugin::NONCE ] = $nonce;
 		$_POST[ Plugin::METAKEY ] = 1;
-		$this->plugin->saveMarkdownMeta( $post->ID );
+		$this->plugin->saveMarkdownMeta( $post->ID, $post );
 		$this->assertTrue( $this->plugin->useMarkdownForPost( $post ) );
+		$this->assertEquals( 'OK! (Markdown)', get_post( $post->ID )->post_content );
 
 		$nonce = wp_create_nonce( $post->ID );
 		$_POST[ Plugin::NONCE ] = $nonce;
 		$_POST[ Plugin::METAKEY ] = 0;
-		$this->plugin->saveMarkdownMeta( $post->ID );
+		$this->plugin->saveMarkdownMeta( $post->ID, $post );
 		$this->assertFalse( $this->plugin->useMarkdownForPost( $post ) );
+		$this->assertEquals( 'OK! (HTML)', get_post( $post->ID )->post_content );
 	}
 
 	public function test_parseEditorSettings() {
@@ -144,6 +152,10 @@ class PluginTest extends WP_UnitTestCase {
 		$GLOBALS['post'] = $this->factory()->post->create_and_get();
 		update_post_meta( $GLOBALS['post']->ID, Plugin::METAKEY, 1 );
 		$content = $this->plugin->parseTheContent( 'MOCKED!' );
-		$this->assertEquals( 'OK!', $content );
+		$this->assertEquals( 'OK! (HTML)', $content );
+
+		update_post_meta( $GLOBALS['post']->ID, Plugin::METAKEY, 0 );
+		$content = $this->plugin->parseTheContent( 'MOCKED!' );
+		$this->assertEquals( 'MOCKED!', $content );
 	}
 }

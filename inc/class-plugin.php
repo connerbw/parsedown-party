@@ -19,17 +19,27 @@ class Plugin {
 	private $parsedown;
 
 	/**
+	 * @var \League\HTMLToMarkdown\HtmlConverter
+	 */
+	private $htmlConverter;
+
+	/**
 	 * @var array
 	 */
 	private $supportedPages = [ 'post.php', 'post-new.php' ];
 
 	/**
 	 * @return Plugin
+	 * @throws \Exception
 	 */
 	static public function init() {
 		if ( is_null( self::$instance ) ) {
 			$extra = new \ParsedownExtra();
-			self::$instance = new self( $extra );
+			$converter_options = [
+				'header_style' => 'atx',
+			];
+			$converter = new \League\HTMLToMarkdown\HtmlConverter( $converter_options );
+			self::$instance = new self( $extra, $converter );
 			self::hooks( self::$instance );
 		}
 		return self::$instance;
@@ -40,7 +50,7 @@ class Plugin {
 	 */
 	static public function hooks( Plugin $obj ) {
 		add_action( 'post_submitbox_misc_actions', [ $obj, 'createMarkdownLink' ] );
-		add_action( 'save_post', [ $obj, 'saveMarkdownMeta' ] );
+		add_action( 'save_post', [ $obj, 'saveMarkdownMeta' ], 10, 2 );
 		add_filter( 'wp_editor_settings', [ $obj, 'parseEditorSettings' ] );
 		add_action( 'admin_enqueue_scripts', [ $obj, 'overrideEditor' ] );
 		add_filter( 'the_content', [ $obj, 'parseTheContent' ], 9 );
@@ -48,9 +58,11 @@ class Plugin {
 
 	/**
 	 * @param \ParsedownExtra $parsedown
+	 * @param \League\HTMLToMarkdown\HtmlConverter $html_converter
 	 */
-	public function __construct( $parsedown ) {
+	public function __construct( $parsedown, $html_converter ) {
 		$this->parsedown = $parsedown;
+		$this->htmlConverter = $html_converter;
 	}
 
 	/**
@@ -69,6 +81,7 @@ class Plugin {
 				$post = get_post( $id );
 			}
 		}
+		$meta_value = null;
 		if ( $post ) {
 			$meta_value = get_post_meta( $post->ID, self::METAKEY, true );
 		}
@@ -122,8 +135,9 @@ class Plugin {
 	 * Save markdown post meta
 	 *
 	 * @param int $post_id Post ID.
+	 * @param \WP_Post $post Post object.
 	 */
-	public function saveMarkdownMeta( $post_id ) {
+	public function saveMarkdownMeta( $post_id, $post ) {
 		if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
 			return;
 		}
@@ -134,10 +148,26 @@ class Plugin {
 			return;
 		}
 
-		if ( ! empty( $_POST[ self::METAKEY ] ) ) {
-			update_post_meta( $post_id, self::METAKEY, 1 );
-		} else {
-			update_post_meta( $post_id, self::METAKEY, 0 );
+		$use_markdown_old = get_post_meta( $post_id, self::METAKEY, true );
+		$use_markdown = ! empty( $_POST[ self::METAKEY ] ) ? 1 : 0;
+		if ( (string) $use_markdown_old !== (string) $use_markdown ) {
+			static $recursion = false;
+			if ( ! $recursion ) {
+				$recursion = true;
+				if ( $use_markdown ) {
+					$content = $this->htmlConverter->convert( wpautop( $post->post_content ) ); // HTML To Markdown
+				} else {
+					$content = $this->parsedown->parse( $post->post_content ); // Markdown To HTML
+				}
+				wp_update_post(
+					[
+						'ID' => $post_id,
+						'post_content' => $content,
+					]
+				);
+				update_post_meta( $post_id, self::METAKEY, $use_markdown );
+				$recursion = false;
+			}
 		}
 	}
 
