@@ -7,7 +7,7 @@ Description: Markdown editing for WordPress.
 Author: KIZU514
 Author URI: https://kizu514.com/
 License: GPLv2
-Version: 1.0.2
+Version: 1.1.0
 Requires PHP: 5.6
 Requires at least: 4.9
 Tested up to: 4.9

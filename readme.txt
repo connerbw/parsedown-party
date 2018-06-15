@@ -23,7 +23,7 @@ This plugin lets you use [Markdown](https://github.com/erusev/parsedown) for ind
 
 == Frequently Asked Questions ==
 
-= If I turn this on for a post, can I go back to HTML editing mode if I change my mind? =
+= If I turn this on for a post, can I go back to HTML if I change my mind? =
 
 Yes.
 
@@ -44,6 +44,9 @@ This plugin follows [Pressbooks coding standards](https://docs.pressbooks.org/co
 The philosophy behind this plugin is: Take a best of breed [Markdown Parser](https://github.com/erusev/parsedown), combine it with WordPress' built-in [CodeMirror](https://make.wordpress.org/core/2017/10/22/code-editing-improvements-in-wordpress-4-9/) libraries, and let users write posts in Markdown. Things like two-pane WYSIWYG editors are out of scope for this particular plugin (the Preview button works fine.) The design goal is to modify WordPress Core as little as possible while providing decent Markdown support for content.
 
 == Changelog ==
+
+= 1.1.0 =
+When enabling Markdown on an existing post, convert HTML to Markdown
 
 = 1.0.2 =
 Update Parsedown to version 1.7.1

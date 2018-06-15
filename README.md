@@ -29,7 +29,7 @@ This plugin lets you use [Markdown](https://github.com/erusev/parsedown) for ind
 ## Frequently Asked Questions 
 
 
-### If I turn this on for a post, can I go back to HTML editing mode if I change my mind? 
+### If I turn this on for a post, can I go back to HTML if I change my mind? 
 
 Yes.
 
@@ -54,6 +54,10 @@ The philosophy behind this plugin is: Take a best of breed [Markdown Parser](htt
 
 
 ## Changelog 
+
+
+### 1.1.0 
+When enabling Markdown on an existing post, convert HTML to Markdown
 
 
 ### 1.0.2 
