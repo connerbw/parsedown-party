@@ -77,16 +77,15 @@ class Plugin {
 		if ( ! $post ) {
 			$post = $this->getPost();
 		}
-		$meta_value = null;
 		if ( $post ) {
+			// meta value should be 0, '0', 1, or '1'.
+			// false and '' means nothing was set
 			$meta_value = get_post_meta( $post->ID, self::METAKEY, true );
+			if ( ! in_array( $meta_value, [ false, '' ], true ) ) {
+				return (bool) $meta_value;
+			}
 		}
-		if ( $post && absint( $meta_value ) === 1 ) {
-			return true;
-		} elseif ( $post && $meta_value === '0' ) {
-			// If post meta is set to 0 (not false), disable Markdown
-			return false;
-		}
+
 		/**
 		 * Enable markdown by default:
 		 *
