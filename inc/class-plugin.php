@@ -78,10 +78,14 @@ class Plugin {
 			$post = $this->getPost();
 		}
 		if ( $post ) {
-			// meta value should be 0, '0', 1, or '1'.
-			// false and '' means nothing was set
+			if ( $this->isGutenberg( $post ) ) {
+				// Block editor currently not supported
+				return false;
+			}
 			$meta_value = get_post_meta( $post->ID, self::METAKEY, true );
 			if ( ! in_array( $meta_value, [ false, '' ], true ) ) {
+				// meta value should be 0, '0', 1, or '1'.
+				// false and '' means nothing was set
 				return (bool) $meta_value;
 			}
 		}
@@ -104,6 +108,10 @@ class Plugin {
 	 * @param \WP_Post $post
 	 */
 	public function createMarkdownLink( $post ) {
+		if ( $this->isGutenberg( $post ) ) {
+			// Block editor currently not supported
+			return;
+		}
 		$use_markdown = $this->useMarkdownForPost( $post );
 		wp_nonce_field( $post->ID, self::NONCE );
 		echo '<input type="hidden" value="' . (int) $use_markdown . '" name="' . self::METAKEY . '"  id="' . self::METAKEY . '" />';
@@ -148,6 +156,10 @@ class Plugin {
 			return;
 		}
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
+			return;
+		}
+		if ( $this->isGutenberg( $post ) ) {
+			// Block editor currently not supported
 			return;
 		}
 
@@ -270,5 +282,17 @@ class Plugin {
 			$post = get_post( $id );
 		}
 		return $post;
+	}
+
+	/**
+	 * @param int|\WP_Post $post Post ID or WP_Post object.
+	 *
+	 * @return bool
+	 */
+	public function isGutenberg( $post ) {
+		if ( ! function_exists( 'use_block_editor_for_post' ) ) {
+			return false;
+		}
+		return use_block_editor_for_post( $post );
 	}
 }
