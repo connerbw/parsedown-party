@@ -8,6 +8,10 @@ class Plugin {
 
 	const NONCE = '_kizu514_parsedown_party';
 
+	const CONVERTER_OPTIONS = [
+		'header_style' => 'atx',
+	];
+
 	/**
 	 * @var Plugin
 	 */
@@ -35,10 +39,7 @@ class Plugin {
 	static public function init() {
 		if ( is_null( self::$instance ) ) {
 			$extra = new \ParsedownExtra();
-			$converter_options = [
-				'header_style' => 'atx',
-			];
-			$converter = new \League\HTMLToMarkdown\HtmlConverter( $converter_options );
+			$converter = new \League\HTMLToMarkdown\HtmlConverter( self::CONVERTER_OPTIONS );
 			self::$instance = new self( $extra, $converter );
 			self::hooks( self::$instance );
 		}
