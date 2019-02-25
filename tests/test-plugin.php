@@ -209,7 +209,7 @@ class PluginTest extends WP_UnitTestCase {
 
 
 	/**
-	 * @see https://github.com/connerbw/parsedownparty/issues/13
+	 * @see https://github.com/connerbw/parsedown-party/issues/13
 	 * @see https://github.com/thephpleague/html-to-markdown/issues/165
 	 */
 	public function test_paragraphs_following_tables() {

@@ -49,7 +49,7 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: TBXNSgy4xEtOyoFD3+C3tKgKWJI7tyQySC4W9lu9sBmg44sooqIW/zazwXtTaifi6CSRRZ0NLh8rBNyjYaupUfAMEhi4K0VMwR21fYpL+XxyGxlTQY1RbPhCGvFlfadgNFYKjMzRh+zv6Y+RyqNpHRRtN7coAPJOboPtuvC0XgN5D62AW7oh4eh+f4iylgnwnJqK1VIGAzQlcdH6IvIah7/SRJSbDbSFYUEGdHNPZrHG7Jd8TehESvDQq59SMBSnYas+xm/YzfNZK89tJgnhXvqILjWzT80kqEPGC2wrxaIdth5XWvw678k6TY9kUhduHzxwzwqZb/GfOiFo4L6eagA8V3+W0TlYFnj+kPH8ycLuA5+H1ZhOMJy7HAvQ5j3RhDyLEBllyjDYdNtC53+FrVe7mMm9kzfHe7YsffhiOgTPjd/ctrZbeWi1AUi/DubuZHORGSHKFyh1FLRUTy3ZXlWoaz1l7KPlT6orjvPvswZScXx9o1xegzXenh81Ws8QfsRuIhUGan/x7sC1jNh9ldSNEa6vAHNvmD80i7os7bmNqaZXGDhRYQUVNrI5/JzCyfbHzcfHlqizdOYcsPr+N/Ezl1Iatbs4f2KZ1iDkkzcBSl28m018tacsWU4qbPEMVGGzUpBGFE9osN359UrdoSUjO4OfsFiJs4bdi6O2Nhk=
-  file: "parsedownparty-$TRAVIS_TAG.zip"
+  file: "parsedown-party-$TRAVIS_TAG.zip"
   on:
     tags: true
-    repo: connerbw/parsedownparty
+    repo: connerbw/parsedown-party

@@ -1,12 +1,12 @@
 {
-  "name": "connerbw/parsedownparty",
+  "name": "connerbw/parsedown-party",
   "description": "Markdown editing for WordPress.",
   "keywords": [
     "markdown",
     "parsedown",
     "wordpress"
   ],
-  "homepage": "https://github.com/connerbw/parsedownparty/",
+  "homepage": "https://github.com/connerbw/parsedown-party/",
   "license": "GPL-2.0+",
   "type": "wordpress-plugin",
   "authors": [
@@ -16,8 +16,8 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/connerbw/parsedownparty/issues/",
-    "source": "https://github.com/connerbw/parsedownparty/"
+    "issues": "https://github.com/connerbw/parsedown-party/issues/",
+    "source": "https://github.com/connerbw/parsedown-party/"
   },
   "config": {
     "platform": {
