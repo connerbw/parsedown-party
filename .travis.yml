@@ -56,3 +56,4 @@ deploy:
   on:
     tags: true
     repo: connerbw/parsedown-party
+    php: '7.2'
