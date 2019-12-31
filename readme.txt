@@ -41,14 +41,15 @@ Yes. Add the following line to your theme's `functions.php` (or another suitable
 
 = Does this plugin work with Gutenberg? =
 
-Not yet. It works on posts using the [Classic Editor](https://github.com/WordPress/classic-editor). The block editor is currently not supported. Want to work on one?
-[Tiny MDE](https://github.com/kellymears/tiny-mde) looks like a good starting point.
+Not yet. It works on posts using the [Classic Editor](https://github.com/WordPress/classic-editor). The block editor is currently not supported.
 
 = I'm a software developer, how can I help? =
 
 This plugin follows [Pressbooks coding standards](https://docs.pressbooks.org/coding-standards/) and development [happens on GitHub](https://github.com/connerbw/parsedown-party).
 
 The philosophy behind this plugin is: Take a best of breed [Markdown Parser](https://github.com/erusev/parsedown), combine it with WordPress' built-in [CodeMirror](https://make.wordpress.org/core/2017/10/22/code-editing-improvements-in-wordpress-4-9/) libraries, and let users write posts in Markdown. Things like two-pane WYSIWYG editors are out of scope for this particular plugin (the Preview button works fine.) The design goal is to modify WordPress Core as little as possible while providing decent Markdown support for content.
+
+What about Gutenberg? [Tiny MDE](https://github.com/kellymears/tiny-mde) looks like a good starting point.
 
 == Changelog ==
 
