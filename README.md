@@ -50,7 +50,8 @@ Yes. Add the following line to your theme's `functions.php` (or another suitable
 
 ### Does this plugin work with Gutenberg? 
 
-Not yet. It works on posts using the [Classic Editor](https://github.com/WordPress/classic-editor). The block editor is currently not supported.
+Not yet. It works on posts using the [Classic Editor](https://github.com/WordPress/classic-editor). The block editor is currently not supported. Want to work on one?
+[Tiny MDE](https://github.com/kellymears/tiny-mde) looks like a good starting point.
 
 
 ### I'm a software developer, how can I help? 
@@ -61,6 +62,11 @@ The philosophy behind this plugin is: Take a best of breed [Markdown Parser](htt
 
 
 ## Changelog 
+
+
+### 1.2.1 
+- Declare compatibility with WordPress 5.3.2 (and Classic Editor)
+- Updated composer dependencies
 
 
 ### 1.2.0 

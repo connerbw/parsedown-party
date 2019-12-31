@@ -7,10 +7,10 @@ Description: Markdown editing for WordPress.
 Author: KIZU514
 Author URI: https://kizu514.com/
 License: GPLv2
-Version: 1.2.0
+Version: 1.2.1
 Requires PHP: 5.6
 Requires at least: 4.9
-Tested up to: 5.1
+Tested up to: 5.3
 Text Domain: parsedown-party
 */
 
