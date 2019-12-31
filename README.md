@@ -59,7 +59,7 @@ This plugin follows [Pressbooks coding standards](https://docs.pressbooks.org/co
 
 The philosophy behind this plugin is: Take a best of breed [Markdown Parser](https://github.com/erusev/parsedown), combine it with WordPress' built-in [CodeMirror](https://make.wordpress.org/core/2017/10/22/code-editing-improvements-in-wordpress-4-9/) libraries, and let users write posts in Markdown. Things like two-pane WYSIWYG editors are out of scope for this particular plugin (the Preview button works fine.) The design goal is to modify WordPress Core as little as possible while providing decent Markdown support for content.
 
-What about Gutenberg? [Tiny MDE](https://github.com/kellymears/tiny-mde) looks like a good starting point.
+What about Gutenberg? Haven't started yet. [Tiny MDE](https://github.com/kellymears/tiny-mde) looks like a good place to get ideas.
 
 
 ## Changelog 
